@@ -10,7 +10,7 @@ Supports Geometry Dash 2.2081 on Windows, Geode 5.10.1+.
 ### 1. Install the mod
 
 1. Install [Geode](https://geode-sdk.org) if you don't have it yet.
-2. Download `ribomdev.gd-ai-bridge.geode` from the [latest release](https://github.com/RibomDev/GD-ai-bridge/releases/latest).
+2. Download `ribomdev.gd-ai-bridge.geode` from the [latest release](https://github.com/RibomX/GD-AI-bridge/releases/latest).
 3. Put it into your `Geometry Dash/geode/mods` folder (in game: Geode menu → settings icon → *Open Mods Folder*).
 4. Restart Geometry Dash.
 

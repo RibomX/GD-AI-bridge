@@ -1,8 +1,8 @@
 # gd-ai-bridge-mcp
 
-MCP server for [GD AI Bridge](https://github.com/RibomDev/GD-ai-bridge), a Geode mod that lets any AI read and edit levels in the Geometry Dash editor.
+MCP server for [GD AI Bridge](https://github.com/RibomX/GD-AI-bridge), a Geode mod that lets any AI read and edit levels in the Geometry Dash editor.
 
-You also need the mod itself, see the [installation guide](https://github.com/RibomDev/GD-ai-bridge#installation).
+You also need the mod itself, see the [installation guide](https://github.com/RibomX/GD-AI-bridge#installation).
 
 ```json
 {

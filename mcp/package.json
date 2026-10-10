@@ -7,10 +7,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RibomDev/GD-ai-bridge.git",
+    "url": "git+https://github.com/RibomX/GD-AI-bridge.git",
     "directory": "mcp"
   },
-  "homepage": "https://github.com/RibomDev/GD-ai-bridge#readme",
+  "homepage": "https://github.com/RibomX/GD-AI-bridge#readme",
   "type": "module",
   "bin": {
     "gd-ai-bridge-mcp": "index.js"
