@@ -88,6 +88,8 @@ codex mcp add geometry-dash -- cmd /c npx -y gd-ai-bridge-mcp
 
    Everything outside `"mcpServers"` (like `"preferences"` above) stays exactly as it was.
 
+   You can also add it *after* the other servers. Either way, the rule is: **every server's closing `}` needs a comma, except the last one.**
+
    **The file has other settings but no `"mcpServers"`** – add `"mcpServers"` as the first entry, with a comma after it:
 
    ```json
