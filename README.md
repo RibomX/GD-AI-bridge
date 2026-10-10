@@ -18,27 +18,95 @@ Supports Geometry Dash 2.2081 on Windows, Geode 5.10.1+.
 
 ### 2. Connect your AI
 
-Install [Node.js](https://nodejs.org) (the LTS version), then add the bridge to your AI app.
+Install [Node.js](https://nodejs.org) (the LTS version), then pick your AI below.
 
-**Claude Code** – run once:
+#### AI in the terminal – one command
+
+Run the command for your AI once in a terminal, then restart the AI.
+
+**Claude Code**
 
 ```bash
-claude mcp add geometry-dash -- npx -y gd-ai-bridge-mcp
+claude mcp add -s user geometry-dash -- cmd /c npx -y gd-ai-bridge-mcp
 ```
 
-**Claude Desktop, Cursor, VS Code, LM Studio and other MCP apps** – add this to the app's MCP config
-(Claude Desktop: *Settings → Developer → Edit Config*), then restart the app:
+**Gemini CLI**
 
-```json
-{
-  "mcpServers": {
-    "geometry-dash": {
-      "command": "npx",
-      "args": ["-y", "gd-ai-bridge-mcp"]
-    }
-  }
-}
+```bash
+gemini mcp add -s user geometry-dash cmd /c npx -y gd-ai-bridge-mcp
 ```
+
+**Codex CLI**
+
+```bash
+codex mcp add geometry-dash -- cmd /c npx -y gd-ai-bridge-mcp
+```
+
+#### AI apps – paste into the config file
+
+1. Open the app's MCP config file:
+
+   | App | Where |
+   | --- | --- |
+   | Claude Desktop | *Settings → Developer → Edit Config* |
+   | Cursor | *Settings → MCP → Add new MCP server* |
+   | LM Studio | *Program* tab → *Install* → *Edit mcp.json* |
+
+2. Look at what's inside and pick the matching case.
+
+   **The file is empty, or only contains `{}`** – replace everything with:
+
+   ```json
+   {
+     "mcpServers": {
+       "geometry-dash": {
+         "command": "cmd",
+         "args": ["/c", "npx", "-y", "gd-ai-bridge-mcp"]
+       }
+     }
+   }
+   ```
+
+   **The file already has `"mcpServers"` with other servers** – don't paste a second `{ ... }` block.
+   Add only the `"geometry-dash"` entry inside the existing `"mcpServers"`, and put a comma between it and the next server:
+
+   ```json
+   {
+     "mcpServers": {
+       "geometry-dash": {
+         "command": "cmd",
+         "args": ["/c", "npx", "-y", "gd-ai-bridge-mcp"]
+       },
+       "some-other-server": {
+         "command": "...",
+         "args": ["..."]
+       }
+     },
+     "preferences": { "...": "..." }
+   }
+   ```
+
+   Everything outside `"mcpServers"` (like `"preferences"` above) stays exactly as it was.
+
+   **The file has other settings but no `"mcpServers"`** – add `"mcpServers"` as the first entry, with a comma after it:
+
+   ```json
+   {
+     "mcpServers": {
+       "geometry-dash": {
+         "command": "cmd",
+         "args": ["/c", "npx", "-y", "gd-ai-bridge-mcp"]
+       }
+     },
+     "preferences": { "...": "..." }
+   }
+   ```
+
+3. Save the file and fully restart the app (Claude Desktop: right-click its tray icon → *Quit*, then open it again).
+
+> **VS Code** uses `.vscode/mcp.json` and the key is `"servers"` instead of `"mcpServers"`; the `"geometry-dash"` entry is the same.
+
+> **Careful:** a single missing comma or extra `}` stops the app from loading *any* MCP server. If nothing shows up after the restart, check the commas and braces first.
 
 ### 3. Use it
 
