@@ -1,0 +1,21 @@
+{
+	"geode": "5.10.1",
+	"gd": {
+		"win": "2.2081"
+	},
+	"id": "ribomdev.gd-ai-bridge",
+	"name": "GD AI Bridge",
+	"version": "v0.1.0",
+	"developer": "RibomDev",
+	"description": "Lets any AI (via MCP or plain HTTP) read and edit levels in the editor.",
+	"settings": {
+		"port": {
+			"type": "int",
+			"name": "Server port",
+			"description": "Local port of the API server (127.0.0.1 only). Restart the game after changing.",
+			"default": 7312,
+			"min": 1024,
+			"max": 65535
+		}
+	}
+}

@@ -1,0 +1,29 @@
+{
+  "name": "gd-ai-bridge-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that connects any MCP client to the GD AI Bridge Geode mod",
+  "keywords": ["mcp", "geometry-dash", "geode", "ai"],
+  "author": "RibomDev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RibomDev/GD-ai-bridge.git",
+    "directory": "mcp"
+  },
+  "homepage": "https://github.com/RibomDev/GD-ai-bridge#readme",
+  "type": "module",
+  "bin": {
+    "gd-ai-bridge-mcp": "index.js"
+  },
+  "files": ["index.js"],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "zod": "^4.6.5"
+  }
+}
