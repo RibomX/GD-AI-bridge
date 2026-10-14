@@ -95,6 +95,29 @@ void startServer(int port) {
         route(server, r.method, r.path, r.handler);
     }
 
+    // A test runs for many frames: start it, then check on it until it ends.
+    server.Post("/test", [](httplib::Request const& req, httplib::Response& res) {
+        if (!isTrustedRequest(req)) return send(res, ApiResult::error(403, "Forbidden"));
+        auto parsed = matjson::parse(req.body.empty() ? "{}" : req.body);
+        if (!parsed) return send(res, ApiResult::error(400, "Invalid JSON: " + parsed.unwrapErr().message));
+        auto input = std::move(parsed).unwrap();
+
+        auto started = runOnMain([input] { return testStart(input); });
+        if (started.status != 200) return send(res, started);
+
+        double timeout = input.contains("timeout") ? input["timeout"].asDouble().unwrapOr(120) : 120;
+        while (true) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::optional<ApiResult> done;
+            auto polled = runOnMain([&done, timeout] {
+                done = testPoll(timeout);
+                return ApiResult::ok(nullptr);
+            });
+            if (polled.status != 200) return send(res, polled);
+            if (done) return send(res, *done);
+        }
+    });
+
     std::thread([port] {
         log::info("API server listening on http://127.0.0.1:{}", port);
         if (!g_server->listen("127.0.0.1", port)) {

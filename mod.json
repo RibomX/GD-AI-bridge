@@ -5,7 +5,7 @@
 	},
 	"id": "ribomdev.gd-ai-bridge",
 	"name": "GD AI Bridge",
-	"version": "v0.1.0",
+	"version": "v0.2.0-alpha.1",
 	"developer": "RibomDev",
 	"description": "Lets any AI (via MCP or plain HTTP) read and edit levels in the editor.",
 	"settings": {

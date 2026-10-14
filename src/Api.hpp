@@ -1,6 +1,7 @@
 #pragma once
 
 #include <matjson.hpp>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -26,5 +27,9 @@ struct ApiRoute {
 // Endpoints exposed by the server. Handlers run on the main thread.
 std::vector<ApiRoute> const& apiRoutes();
 matjson::Value apiInfo();
+
+// Automated playtest (Tester.cpp), main thread only. testPoll returns nothing while running.
+ApiResult testStart(matjson::Value const& input);
+std::optional<ApiResult> testPoll(double timeoutSeconds);
 
 void startServer(int port);
