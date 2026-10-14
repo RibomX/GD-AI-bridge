@@ -3,9 +3,11 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import * as offline from "./offline.js";
 
 const BASE = process.env.GD_BRIDGE_URL ?? "http://127.0.0.1:7312";
 
+// Live: talk to the mod. If the game is closed, edit the save file instead (offline mode).
 async function call(method, path, body) {
   let res;
   try {
@@ -15,11 +17,22 @@ async function call(method, path, body) {
       body: body ? JSON.stringify(body) : undefined,
     });
   } catch {
-    throw new Error(`Cannot reach Geometry Dash at ${BASE}. Is the game running with the GD AI Bridge mod?`);
+    if (offline.isGameRunning()) {
+      throw new Error(`Geometry Dash is running but the mod doesn't answer at ${BASE}. Is GD AI Bridge installed and enabled?`);
+    }
+    return offline.request(method, path, body ?? {});
   }
   const data = await res.json();
   if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
   return data;
+}
+
+// Level management only makes sense offline; live, the open level is whatever the editor shows.
+async function callOffline(method, path, body) {
+  const live = await fetch(BASE + "/status").then(() => true, () => false);
+  if (live) throw new Error("The game is running. Open the level in the editor yourself, or close the game to manage levels offline.");
+  if (offline.isGameRunning()) throw new Error("Geometry Dash is running. Close it completely to manage levels offline.");
+  return offline.request(method, path, body ?? {});
 }
 
 function query(params) {
@@ -77,7 +90,8 @@ const targetFields = {
 
 tool(
   "gd_status",
-  "Check whether the Geometry Dash level editor is open; returns level name, object count and playtest state.",
+  "Check the connection: live (editor open: level name, object count, playtest state) or offline (game closed: " +
+    "editing the save file directly; playtests and selection need the game).",
   {},
   () => call("GET", "/status"),
 );
@@ -88,9 +102,34 @@ tool(
     "(heights and lengths per speed, pads, orbs, ship). Call once before building.",
   {},
   async () => {
-    const { units, common_object_ids, physics } = await call("GET", "/");
+    const info = await call("GET", "/");
+    // Offline there is no mod to ask, so fall back to the copy shipped with the adapter.
+    const { units, common_object_ids, physics } = info.offline ? offline.REFERENCE : info;
     return { units, common_object_ids, physics };
   },
+);
+
+tool(
+  "gd_list_levels",
+  "List your local (created) levels and which one offline mode is working on. Offline only (game closed).",
+  {},
+  () => callOffline("GET", "/levels"),
+);
+
+tool(
+  "gd_open_level",
+  "Choose which local level to edit while the game is closed (by name). Offline only; live, the level open in " +
+    "the editor is used. Without this, offline mode uses your most recently created level.",
+  { name: z.string() },
+  (a) => callOffline("POST", "/levels/open", a),
+);
+
+tool(
+  "gd_create_level",
+  "Create a new empty local level and open it for editing. Offline only (game closed); it shows up at the top " +
+    "of your Created levels next time you start the game.",
+  { name: z.string() },
+  (a) => callOffline("POST", "/levels/create", a),
 );
 
 tool(

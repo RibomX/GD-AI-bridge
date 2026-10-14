@@ -15,7 +15,7 @@
   "bin": {
     "gd-ai-bridge-mcp": "index.js"
   },
-  "files": ["index.js"],
+  "files": ["index.js", "offline.js"],
   "engines": {
     "node": ">=18"
   },
