@@ -5,7 +5,7 @@
 	},
 	"id": "ribomdev.gd-ai-bridge",
 	"name": "GD AI Bridge",
-	"version": "v0.2.0-alpha.1",
+	"version": "v0.2.0-alpha.2",
 	"developer": "RibomDev",
 	"description": "Lets any AI (via MCP or plain HTTP) read and edit levels in the editor.",
 	"settings": {
@@ -16,6 +16,12 @@
 			"default": 7312,
 			"min": 1024,
 			"max": 65535
+		},
+		"run-minimized": {
+			"type": "bool",
+			"name": "Keep running when minimized",
+			"description": "While you are in the editor, the game keeps running when minimized, so the AI can keep working in the background.",
+			"default": true
 		}
 	}
 }

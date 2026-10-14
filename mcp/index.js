@@ -84,11 +84,12 @@ tool(
 
 tool(
   "gd_reference",
-  "Coordinate system and common object IDs (blocks, spikes, pads, orbs, portals, triggers). Call once before building.",
+  "Coordinate system, common object IDs (blocks, spikes, pads, orbs, portals, triggers) and measured jump physics " +
+    "(heights and lengths per speed, pads, orbs, ship). Call once before building.",
   {},
   async () => {
-    const { units, common_object_ids } = await call("GET", "/");
-    return { units, common_object_ids };
+    const { units, common_object_ids, physics } = await call("GET", "/");
+    return { units, common_object_ids, physics };
   },
 );
 
@@ -234,6 +235,7 @@ tool(
     until_x: z.number().optional().describe("Counts as passed at this x. Default: just past the last object"),
     speed: z.number().optional().describe("Game speed while testing, 0.25-4 (default 1)"),
     timeout: z.number().optional().describe("Seconds before giving up (default 120)"),
+    path_step: z.number().optional().describe("Record the path every N units of x (5-300, default 30)"),
   },
   (a) => call("POST", "/test", a),
 );

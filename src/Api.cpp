@@ -598,11 +598,22 @@ matjson::Value apiInfo() {
         {"triggers", "899 color, 901 move, 1006 pulse, 1007 alpha, 1049 toggle, 1268 spawn, 1346 rotate"},
         {"misc", "31 start position"},
     });
+    // Measured in-game with /test (cube, normal gravity, units: 30 = 1 block).
+    // Lengths are takeoff to landing on flat ground; height is above the ground.
+    static auto const physics = matjson::makeObject({
+        {"cube_jump", "height ~64 at every speed; length: slow 106, normal 136, fast 176, faster 206, fastest 252"},
+        {"pads", "yellow pad: height 131, length 189; pink pad: height 55, length 124 (normal speed, triggered ~25 before its center)"},
+        {"orbs", "yellow orb: same arc as a normal jump (64 / 130); pink orb: height 33, length 91 (normal speed)"},
+        {"ship", "holding from the ground at normal speed: +2 after 15 units, +24 after 60, +90 after 120, +131 after 150; "
+                 "after releasing it keeps rising ~70 more over ~120 units before falling"},
+        {"timing_tip", "to clear one spike at normal speed, tap ~60 units before its x; the player hitbox is about one block"},
+    });
     return matjson::makeObject({
         {"name", "GD AI Bridge"},
         {"version", Mod::get()->getVersion().toVString()},
         {"units", "1 block = 30 units. Grid cell centers sit at 15, 45, 75... y = 15 is the first row above the ground."},
         {"common_object_ids", commonIds},
+        {"physics", physics},
         {"endpoints", endpoints},
     });
 }

@@ -10,7 +10,6 @@ using namespace geode::prelude;
 
 namespace {
     constexpr float GROUND_OFFSET = 90.f;
-    constexpr double PATH_STEP = 30;
 
     struct Input {
         double press;
@@ -27,6 +26,7 @@ namespace {
         double startX = 0;
         double lastX = 0;
         double nextPathX = 0;
+        double pathStep = 30;
         std::string path;
         std::string outcome;
         CCPoint deathPos;
@@ -101,7 +101,7 @@ class $modify(GJBaseGameLayer) {
             g_run.lastX = pos.x;
             while (pos.x >= g_run.nextPathX) {
                 g_run.path += fmt::format("{:.0f},{:.0f};", pos.x, pos.y - GROUND_OFFSET);
-                g_run.nextPathX += PATH_STEP;
+                g_run.nextPathX += g_run.pathStep;
             }
             if (pos.x >= g_run.untilX) finish("passed", pos);
         }
@@ -156,6 +156,8 @@ ApiResult testStart(matjson::Value const& input) {
     lel->m_editorUI->onPlaytest(nullptr);
     g_run.startX = lel->m_player1 ? lel->m_player1->getPositionX() : 0;
     g_run.nextPathX = g_run.startX;
+    // Finer path sampling is useful for measuring jumps; coarser saves tokens.
+    g_run.pathStep = std::clamp(input.contains("path_step") ? input["path_step"].asDouble().unwrapOr(30) : 30.0, 5.0, 300.0);
     g_run.active = true;
     return ApiResult::ok(matjson::makeObject({{"started", true}, {"until_x", untilX}}));
 }
