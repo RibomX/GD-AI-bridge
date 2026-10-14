@@ -1,6 +1,6 @@
 {
   "name": "gd-ai-bridge-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MCP server that connects any MCP client to the GD AI Bridge Geode mod",
   "keywords": ["mcp", "geometry-dash", "geode", "ai"],
   "author": "RibomDev",

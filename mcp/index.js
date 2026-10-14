@@ -42,7 +42,7 @@ function query(params) {
 
 const result = (data) => ({ content: [{ type: "text", text: JSON.stringify(data) }] });
 
-const server = new McpServer({ name: "gd-ai-bridge", version: "0.1.0" });
+const server = new McpServer({ name: "gd-ai-bridge", version: "0.2.0" });
 
 function tool(name, description, inputSchema, run) {
   server.registerTool(name, { description, inputSchema }, async (args) => {
