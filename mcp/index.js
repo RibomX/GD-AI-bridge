@@ -260,7 +260,9 @@ tool(
   "gd_test",
   "Play the level automatically with a planned list of inputs and get the result: passed/died, where the player " +
     "died, which objects were next to it, progress % and the player's path ('x,y;...'). The game plays the inputs " +
-    "itself at exact positions. Use it to check that a section is beatable, then fix the level or the inputs and retry.",
+    "itself at exact positions. Use it to check that a section is beatable, then fix the level or the inputs and retry. " +
+    "A cube tap while airborne does nothing: read the path to see where the player lands, and press after landing " +
+    "(or from the edge of a block).",
   {
     inputs: z
       .array(
