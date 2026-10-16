@@ -5,6 +5,12 @@ Ask Claude, ChatGPT or any other AI to build, inspect or change your level, and 
 
 Supports Geometry Dash 2.2081 on Windows, Geode 5.10.1+.
 
+> [!WARNING]
+> **Not compatible with Geometry Dash 2.209 yet.** The 2.209 update (15 October 2026) changed the game's internals, and Geode doesn't fully support 2.209 yet.
+> Using this mod on 2.209 can crash the game or damage the level the AI is working on, and offline mode isn't verified for 2.209 saves yet.
+> **Please remove `ribomdev.gd-ai-bridge.geode` from your `geode/mods` folder until v0.2.1** (on 2.209 the Geode button in the main menu is hidden, so delete or move the file instead of disabling it in-game).
+> A fixed version will follow as soon as Geode supports 2.209.
+
 ## What's new in v0.2.0
 
 - **Build much faster** – new tools fill areas, draw lines of objects, copy/repeat sections, move and edit objects in one step instead of placing every block separately
